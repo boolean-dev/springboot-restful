@@ -3,12 +3,13 @@ package ${BASE_PACKAGE}.controller;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import ${BASE_PACKAGE}.Message;
+import ${BASE_PACKAGE}.massage.*;
+import ${BASE_PACKAGE}.Page;
 import ${BASE_PACKAGE}.Pageable;
 import ${BASE_PACKAGE}.entity.${objectName};
 import ${BASE_PACKAGE}.service.${objectName}Service;
@@ -20,59 +21,58 @@ import ${BASE_PACKAGE}.service.${objectName}Service;
  * @author: ${AUTHOR}
  * @date: ${DATE}
  */
-@Controller("admin${objectName}Controller")
-@RequestMapping("/admin/${objectNameLower}")
+@ResponseBody
+@Controller("admin${objectNameLower}Controller")
+@RequestMapping("/${objectNameLower}")
 public class ${objectName}Controller extends BaseController {
 
 	@Resource(name = "${objectNameLower}ServiceImpl")
 	private ${objectName}Service ${objectNameLower}Service;
 	
-	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add(ModelMap model) throws Exception {
-		return "/admin/${objectNameLower}/add";
-	}
-	
-	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public Object save(ModelMap model,${objectName} ${objectNameLower}) throws Exception {
+	@RequestMapping(value = "/", method = RequestMethod.POST)
+	public Message save(${objectName} ${objectNameLower}) throws Exception {
 		${objectNameLower}.buildId();
 		${objectNameLower}Service.save(${objectNameLower});
-		return "redirect:list";
+		return new SuccessMsg("保存成功");
 	}
 	
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(ModelMap model,String id) throws Exception {
-		${objectName} ${objectNameLower} = ${objectNameLower}Service.findById(id);
-		model.addAttribute("${objectNameLower}", ${objectNameLower});
-		return "/admin/${objectNameLower}/edit";
-	}
-	
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(ModelMap model,${objectName} ${objectNameLower}) throws Exception {
+	@RequestMapping(value = "/", method = RequestMethod.PUT)
+	public Message update(${objectName} ${objectNameLower}) throws Exception {
 		${objectNameLower}Service.update(${objectNameLower});
-		return "redirect:list";
+		return new SuccessMsg("更新成功");
 	}
 	
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(ModelMap model,Pageable pageable) throws Exception {
-		model.addAttribute("page", ${objectNameLower}Service.findPage(pageable));
-		return "/admin/${objectNameLower}/list";
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public Page<Location> list(Pageable pageable) throws Exception {
+		return ${objectNameLower}Service.findPage(pageable);
 	}
 	
-	@RequestMapping(value = "/view", method = RequestMethod.GET)
-	public String view(ModelMap model,String id) throws Exception {
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public Message view(@PathVariable String id) throws Exception {
 		${objectName} ${objectNameLower} = ${objectNameLower}Service.findById(id);
-		model.addAttribute("${objectNameLower}", ${objectNameLower});
-		return "/admin/${objectNameLower}/view";
+		return new SuccessMsg("成功",${objectNameLower});
 	}
-	
-	@ResponseBody
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public Message delete(@PathVariable String id) throws Exception {
+		String[] ids = {id};
+		int i = ${objectNameLower}Service.delete(ids);
+		if(i > 0){
+			return new SuccessMsg("成功");
+		}else{
+			return new ErrorMsg("失败");
+		}
+	}
+
+
+
+	@RequestMapping(value = "", method = RequestMethod.DELETE)
 	public Message delete(String[] ids) throws Exception {
 		int i = ${objectNameLower}Service.delete(ids);
 		if(i > 0){
-			return SUCCESS_MESSAGE;
+			return new SuccessMsg("成功");
 		}else{
-			return SUCCESS_MESSAGE;
+			return new ErrorMsg("失败");
 		}
 	}
 		

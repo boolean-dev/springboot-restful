@@ -29,7 +29,7 @@ public class Page<T> implements Serializable {
 	/** 分页信息 */
 	private final Pageable pageable;
 	
-	private final List<Integer> segment = new ArrayList<Integer>();
+//	private final List<Integer> segment = new ArrayList<Integer>();
 	
 	private int num;
 
@@ -78,27 +78,27 @@ public class Page<T> implements Serializable {
 	 * 
 	 * @return 搜索属性
 	 */
-	public String getSearchProperty() {
+	/*public String getSearchProperty() {
 		return pageable.getSearchProperty() == null ? "" : pageable.getSearchProperty();
-	}
+	}*/
 
 	/**
 	 * 获取搜索值
 	 * 
 	 * @return 搜索值
 	 */
-	public String getSearchValue() {
+	/*public String getSearchValue() {
 		return pageable.getSearchValue() == null ? "" : pageable.getSearchValue();
-	}
+	}*/
 
 	/**
 	 * 获取排序属性
 	 * 
 	 * @return 排序属性
 	 */
-	public String getOrderProperty() {
+	/*public String getOrderProperty() {
 		return pageable.getOrderProperty() == null ? "" : pageable.getOrderProperty();
-	}
+	}*/
 
 	/**
 	 * 获取总页数
@@ -132,11 +132,11 @@ public class Page<T> implements Serializable {
 	 * 
 	 * @return 分页信息
 	 */
-	public Pageable getPageable() {
+	/*public Pageable getPageable() {
 		return pageable;
-	}
+	}*/
 
-	public List<Integer> getSegment() {
+	/*public List<Integer> getSegment() {
 		if(getTotalPages() - getPageNumber() <3) {
 			for(int i=getTotalPages();i>0;i--){
 				segment.add(i);
@@ -161,7 +161,7 @@ public class Page<T> implements Serializable {
 			return segment;
 		}
 	
-	}
+	}*/
 
 	public int getNum() {
 		return num;

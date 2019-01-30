@@ -14,13 +14,13 @@
 	</resultMap>
 
 	<sql id="columns">
-		id,
+		`id`,
 		<#list params as param>
-		${param.columnName},
+		`${param.columnName}`,
 		</#list>
-		create_date,
-		modify_date,
-		orders
+		`create_date`,
+		`modify_date`,
+		`orders`
 	</sql>
 	
 	<!-- 查找分页 -->
@@ -68,7 +68,7 @@
 		UPDATE ${tableName}
 		<trim prefix="set" suffixOverrides=","> 
 			<#list params as param>
-			<if test="${param.name} != null">${param.columnName} = ${'#'}{${param.name}},</if>
+			<if test="${param.name} != null">`${param.columnName}` = ${'#'}{${param.name}},</if>
 			</#list>
 			<if test="createDate != null">create_date = ${'#'}{createDate},</if>
 			modify_date = now(),

@@ -3,6 +3,7 @@ package ${BASE_PACKAGE}.entity;
 import org.apache.ibatis.type.Alias;
 import java.math.BigDecimal;
 import java.util.Date;
+import lombok.Data;
 
 /**
  * ${objectName}-${memo}
@@ -11,7 +12,9 @@ import java.util.Date;
  * @author: ${AUTHOR}
  * @date: ${DATE}
  */
+
 @Alias("${objectName}")
+@Data
 public class ${objectName} extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
